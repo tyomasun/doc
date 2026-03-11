@@ -45,6 +45,19 @@ Copy-Item -Path ".\sbis-crm-framework\skills\gitlab-mr-review" `
 
 После копирования навыка перезапустите Codex/Cursor.
 
+## Установка через Skill Installer
+
+### Windows (PowerShell)
+
+```powershell
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" `
+  --repo tyomasun/doc `
+  --path skills/gitlab-mr-review `
+  --ref main
+```
+
+После установки перезапустите Codex/Cursor.
+
 ## Настройка переменных окружения
 
 Навык использует:
