@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File "<skill_root>\run_mr_prep.ps1" "<MR_URL>"
