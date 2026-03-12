@@ -6,9 +6,10 @@
 
 1) Проверьте, что стабы лежат в:
    - `C:/Saby/stubs`
+или замените путь в SKILL.md
 
 2) Убедитесь, что редактор видит стабы (Cursor Pyright):
-   - Файл: `C:/Users/an.kochetovskiy/AppData/Roaming/Cursor/User/settings.json`
+   - Файл: `C:/Users/<user_folder>/AppData/Roaming/Cursor/User/settings.json`
    - Должны быть ключи:
 
 ```json
@@ -28,14 +29,14 @@
 Навык срабатывает когда:
 - в .py файле есть `import sbis`;
 - вы работаете с тегом `<body>` в `.orx` файле;
-- появилась ошибка `Import "sbis" could not be resolved`.
+
 
 ### Быстрое применение настроек (если стабы не видятся)
 
 Выполните скрипт:
 
 ```powershell
-python "C:/Users/an.kochetovskiy/.codex/skills/sbis-stubs/scripts/apply_cursorpyright_stubs.py"
+python "C:/Users/<user_folder>/.codex/skills/sbis-stubs/scripts/apply_cursorpyright_stubs.py"
 ```
 
 Он проставит/обновит нужные ключи в `settings.json`.
@@ -43,7 +44,7 @@ python "C:/Users/an.kochetovskiy/.codex/skills/sbis-stubs/scripts/apply_cursorpy
 ### Проверка
 
 Откройте файл с `import sbis` и перейдите к определению — должен открыться путь:
-`C:/Saby/stubs/sbis`.
+`<your_path>/stubs/sbis`.
 
 ### Использование стабов в работе
 
