@@ -63,12 +63,14 @@ python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-s
 Навык использует:
 - `GIT_REPO_ROOTS` — один или несколько каталогов, где ищутся локальные git-репозитории.
 - `GITLAB_TOKEN` — токен для запросов к GitLab API.
+- `SBIS_STUBS_PATH` — необязательный путь к SBIS/Saby Python stubs для проверки платформенных контрактов `sbis.*`.
 
 ### Windows (PowerShell, сохранить для текущего пользователя)
 
 ```powershell
 setx GIT_REPO_ROOTS "C:\Saby\src;D:\work\repos"
 setx GITLAB_TOKEN "glpat-xxxxxxxxxxxxxxxx"
+setx SBIS_STUBS_PATH "C:\Saby\stubs"
 ```
 
 После `setx` перезапустите терминал/Cursor.
@@ -78,6 +80,7 @@ setx GITLAB_TOKEN "glpat-xxxxxxxxxxxxxxxx"
 ```powershell
 $env:GIT_REPO_ROOTS = "C:\Saby\src;D:\work\repos"
 $env:GITLAB_TOKEN = "glpat-xxxxxxxxxxxxxxxx"
+$env:SBIS_STUBS_PATH = "C:\Saby\stubs"
 ```
 
 ### Проверка
@@ -85,7 +88,10 @@ $env:GITLAB_TOKEN = "glpat-xxxxxxxxxxxxxxxx"
 ```powershell
 echo $env:GIT_REPO_ROOTS
 echo $env:GITLAB_TOKEN
+echo $env:SBIS_STUBS_PATH
 ```
+
+Если `SBIS_STUBS_PATH` не задан, `mr_prep.py` вернет пустой `stubs_path` и добавит предупреждение в `notes`. В качестве резервного имени переменной поддерживается `SABY_STUBS_PATH`, но основная переменная для настройки — `SBIS_STUBS_PATH`.
 
 ### Альтернатива через local config
 
