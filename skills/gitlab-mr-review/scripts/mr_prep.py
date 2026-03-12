@@ -47,6 +47,12 @@ GIT_REPO_ROOTS = (
     or str(LOCAL_CONFIG.get("GIT_REPO_ROOTS", ""))
 ).strip()
 
+# Optional: path to SBIS/Saby Python stubs used during review.
+STUBS_PATH = (
+    os.environ.get("SBIS_STUBS_PATH")
+    or os.environ.get("SABY_STUBS_PATH")
+).strip()
+
 # Where to write artifacts.
 OUT_DIR = Path(
     os.environ.get("CODEX_SKILL_OUT_DIR", ".codex/tmp/gitlab-mr-review")
@@ -211,6 +217,22 @@ def discover_repo_dir(
     return candidates[0]
 
 
+def resolve_stubs_path(notes: list[str]) -> str:
+    if not STUBS_PATH:
+        notes.append(
+            "SBIS_STUBS_PATH is not set; stubs-based contract checks may be unavailable."
+        )
+        return ""
+
+    stubs_dir = Path(os.path.expanduser(STUBS_PATH)).resolve()
+    if not stubs_dir.exists():
+        notes.append(f"Configured stubs path does not exist: {stubs_dir}")
+    elif not (stubs_dir / "sbis").exists():
+        notes.append(f"Configured stubs path does not contain sbis package: {stubs_dir}")
+
+    return str(stubs_dir)
+
+
 def main() -> None:
     if len(sys.argv) != 2:
         print("Usage: mr_prep.py <MR_URL>", file=sys.stderr)
@@ -219,6 +241,7 @@ def main() -> None:
     mr_url = sys.argv[1].strip()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     notes: list[str] = []
+    stubs_path = resolve_stubs_path(notes)
 
     host, project_path, iid = parse_mr_url(mr_url)
     project_path_encoded = urllib.parse.quote(project_path, safe="")
@@ -300,6 +323,7 @@ def main() -> None:
         "mr_url": info.web_url,
         "target_branch": info.target_branch,
         "source_branch": info.source_branch,
+        "stubs_path": stubs_path,
         "diff_unified_path": str(diff_path),
         "changes_json_path": str(changes_path),
         "notes": notes,
